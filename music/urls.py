@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/$', views.AlbumDetail.as_view(), name='detail'),
     url(r'^create_album/$', views.AlbumCreate.as_view(), name='create_album'),
     url(r'^album/(?P<pk>[0-9]+)$', views.AlbumUpdate.as_view(), name='update_album'),
-    url(r'^(?P<album_id>[0-9]+)/delete_album/$', views.AlbumDelete.as_view(), name='delete_album'),
+    url(r'^(?P<pk>[0-9]+)/delete_album/$', views.AlbumDelete.as_view(), name='delete_album'),
     
     url(r'^(?P<album_id>[0-9]+)/create_song/$', views.create_song, name='create_song'),
     url(r'^songs/(?P<filter_by>[a-zA_Z]+)/$', views.songs, name='songs'),

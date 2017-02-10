@@ -8,31 +8,42 @@ from .models import Album, Song
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views import generic
 from django.core.urlresolvers import reverse_lazy
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 AUDIO_FILE_TYPES = ['wav', 'mp3', 'ogg']
 IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
 
-class IndexView(generic.ListView):
+class IndexView(LoginRequiredMixin, generic.ListView):
+    login_url = '/login_user/'
+    redirect_field_name = 'redirect_to'
     template_name = 'music/index.html'
-    context_object_name = 'all_albums'
+    context_object_name = 'albums'
 
     def get_queryset(self):
+        print(self.request.user)
         return Album.objects.all()
 
-class AlbumCreate(CreateView):
+class AlbumCreate(LoginRequiredMixin,CreateView):
+    login_url = '/login_user/'
+    redirect_field_name = 'redirect_to'
     model = Album
     fields = ['artist', 'album_title', 'genre', 'album_logo']
 
-class AlbumDetail(generic.DetailView):
-	model=Album
-	template_name='music/detail.html'
+class AlbumDetail(LoginRequiredMixin,generic.DetailView):
+    login_url = '/login_user/'
+    redirect_field_name = 'redirect_to'
+    model=Album
+    template_name='music/detail.html'
 
-class AlbumUpdate(UpdateView):
+class AlbumUpdate(LoginRequiredMixin,UpdateView):
+    login_url = '/login_user/'
+    redirect_field_name = 'redirect_to'
     model = Album
     fields = ['artist', 'album_title', 'genre', 'album_logo']
 
 
-class AlbumDelete(DeleteView):
+class AlbumDelete(LoginRequiredMixin,DeleteView):
+    login_url = '/login_user/'
+    redirect_field_name = 'redirect_to'
     model = Album
     success_url = reverse_lazy('music:index')
 
